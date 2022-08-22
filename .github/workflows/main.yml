@@ -18,9 +18,9 @@ jobs:
       # create dacpac using MSBUILD executable
       - name: create dacpac
         run: |
-          & 'C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\MSBuild.exe' Customer.Database.Project\Customer.Database.Project.sqlproj /p:Configuration=Release
+          & 'C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\MSBuild.exe' Customer.Database.Project/Customer.Database.Project/Customer.Database.Project.sqlproj /p:Configuration=Release
       # Publish an artifact
       - uses: actions/upload-artifact@v2
         with:
           name: DACPAC
-          path: ${{ github.workspace }}/bin/Release/
+          path: ${{ github.workspace }}Customer.Database.Project/Customer.Database.Project//bin/Release/
