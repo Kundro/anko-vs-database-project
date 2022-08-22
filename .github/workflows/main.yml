@@ -1,12 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
   build:
@@ -14,13 +8,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1.1
 
       # create dacpac using MSBUILD executable
       - name: create dacpac
-        run: |
-          & 'C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\MSBuild.exe' Customer.Database.Project/Customer.Database.Project/Customer.Database.Project.sqlproj /p:Configuration=Release
-      # Publish an artifact
+        run: msbuild Customer.Database.Project/Customer.Database.Project/Customer.Database.Project.sqlproj /p:Configuration=Release
+     
+     # Publish an artifact
       - uses: actions/upload-artifact@v2
         with:
           name: DACPAC
-          path: ${{ github.workspace }}Customer.Database.Project/Customer.Database.Project//bin/Release/
+          path: ${{ github.workspace }}/Customer.Database.Project/Customer.Database.Project//bin/Release/
